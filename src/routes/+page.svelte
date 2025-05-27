@@ -70,6 +70,9 @@
         transform: translateX(30px);
         animation: slideInRight 1.2s ease-out 0.8s forwards;
         position: relative;
+        --gradient-angle: 252deg;
+        --gradient-start: #6521FF;
+        --gradient-end: #B493FF;
     }
 
     .particles {
@@ -91,13 +94,11 @@
     }
 
     .logo-container:hover .indaia {
-        animation: pulse 1.5s ease-in-out infinite;
+        /* animation: pulse 1.5s ease-in-out infinite; */
     }
 
     .logo-container:hover .tech {
-        animation: pulse 1.5s ease-in-out infinite;
-        animation-delay: 0.2s;
-        background: linear-gradient(252deg, #6521FF, #B493FF);
+        background: linear-gradient(var(--gradient-angle), var(--gradient-start), var(--gradient-end));
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -367,16 +368,17 @@
         const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
         const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
         
-        techText.style.background = `linear-gradient(${gradientAngle}deg, ${startColor}, ${endColor})`;
-        techText.style.backgroundClip = 'text';
-        techText.style.webkitBackgroundClip = 'text';
+        techText.style.setProperty('--gradient-angle', `${gradientAngle}deg`);
+        techText.style.setProperty('--gradient-start', startColor);
+        techText.style.setProperty('--gradient-end', endColor);
         techText.style.textShadow = `0 0 ${10 + intensity * 20}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
     });
 
     logoContainer.addEventListener('mouseleave', () => {
-        techText.style.background = 'none';
+        techText.style.setProperty('--gradient-angle', '252deg');
+        techText.style.setProperty('--gradient-start', '#6521FF');
+        techText.style.setProperty('--gradient-end', '#B493FF');
         techText.style.textShadow = 'none';
-        techText.style.color = '#4854FF';
     });
 
     // Mouse follow effect for button
