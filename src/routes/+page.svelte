@@ -1,4 +1,5 @@
 <div>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
 <style>
     body {
@@ -8,10 +9,18 @@
         font-family: 'Nunito', sans-serif;
         overflow-x: hidden;
         cursor: default;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     a, button {
         cursor: pointer!important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .navbar {
@@ -507,7 +516,7 @@
     .footer {
         background: rgba(10, 10, 10, 0.95);
         backdrop-filter: blur(10px);
-        padding: 16rem 4rem 10rem;
+        padding: 16rem 4rem 4rem;
         color: #f8fafd;
         position: relative;
         z-index: 2;
@@ -519,7 +528,7 @@
     }
 
     .footer-grid {
-        margin-bottom: 4rem;
+        /* margin-bottom: 4rem; */
     }
 
     .footer-brand {
@@ -556,6 +565,126 @@
         color: #aaa;
         font-size: 1.1rem;
         line-height: 1.6;
+    }
+
+    .rocket-container {
+        position: relative;
+        width: 100%;
+        height: 100px;
+        /* margin: 2rem 0; */
+        overflow: hidden;
+        image-rendering: pixelated;
+    }
+
+    .rocket {
+        position: absolute;
+        width: 30px;
+        height: 10px;
+        cursor: pointer;
+        user-select: none;
+        z-index: 1000;
+        filter: drop-shadow(0 0 10px rgba(101, 33, 255, 0.3)) 
+                contrast(1.2) 
+                brightness(1.2);
+        transition: transform 0.3s ease, filter 0.3s ease;
+        transform-origin: center;
+        image-rendering: pixelated;
+        bottom: 0;
+    }
+
+    .rocket-body {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 30px solid #B493FF;
+    }
+
+    .rocket-thruster {
+        position: absolute;
+        top: 30px;
+        left: -10px;
+        width: 20px;
+        height: 10px;
+        background: linear-gradient(to bottom, #6521FF, transparent);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
+
+    .rocket:hover {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 20px rgba(101, 33, 255, 0.5)) 
+                contrast(1.4) 
+                brightness(1.4);
+    }
+
+    .bullet {
+        position: fixed;
+        width: 2px;
+        height: 15px;
+        background: #B493FF;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        filter: drop-shadow(0 0 15px rgba(101, 33, 255, 0.8)) 
+                contrast(1.2) 
+                brightness(1.2);
+        transition: opacity 0.3s ease;
+        image-rendering: pixelated;
+    }
+
+    .bullet::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -1px;
+        width: 4px;
+        height: 4px;
+        background: #B493FF;
+        border-radius: 50%;
+        filter: blur(1px);
+    }
+
+    .bullet.active {
+        opacity: 1;
+    }
+
+    .bullet-trail {
+        position: absolute;
+        width: 1px;
+        height: 20px;
+        background: linear-gradient(
+            to bottom,
+            #B493FF,
+            transparent
+        );
+        opacity: 0.8;
+        transform-origin: bottom;
+        pointer-events: none;
+        image-rendering: pixelated;
+        box-shadow: 0 0 10px rgba(101, 33, 255, 0.5);
+    }
+
+    .pixel-dust {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #B493FF;
+        border-radius: 0;
+        pointer-events: none;
+        opacity: 0;
+        filter: blur(0.5px);
+    }
+
+    @keyframes pixelDust {
+        0% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translate(var(--tx), var(--ty)) scale(0);
+            opacity: 0;
+        }
     }
 
     .footer-bottom {
@@ -606,45 +735,6 @@
         .footer-tagline {
             font-size: 1.3rem;
         }
-    }
-
-    .step-card {
-        background: rgba(255, 255, 255, 0.03);
-        padding: 2rem;
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-        transition: transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .step-image {
-        width: 200px;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-
-    .step-card:hover .step-image {
-        transform: scale(1.05);
-    }
-
-    .step-card h3 {
-        position: relative;
-        z-index: 2;
-    }
-
-    .step-card p {
-        position: relative;
-        z-index: 2;
     }
 </style>
 
@@ -772,6 +862,13 @@
                 </div>
                 <p class="footer-tagline">Transformando atendimento com inteligência artificial</p>
                 <p class="footer-description">Somos uma empresa focada em transformar o atendimento ao cliente através de soluções inovadoras de inteligência artificial, tornando o processo mais eficiente e personalizado.</p>
+            </div>
+        </div>
+        
+        <div class="rocket-container">
+            <div class="rocket">
+                <div class="rocket-body"></div>
+                <div class="rocket-thruster"></div>
             </div>
         </div>
         
@@ -1032,5 +1129,215 @@
 
     // Initialize dots pattern
     createDotsPattern();
+
+    // Rocket and bullet functionality
+    const rocket = document.querySelector('.rocket');
+    const rocketContainer = document.querySelector('.rocket-container');
+    const footerGrid = document.querySelector('.footer-grid');
+    let bullet = null;
+    let lastMouseX = 0;
+    let targetX = 0;
+    let currentX = 0;
+    let animationFrame = null;
+    let isFiring = false;
+    let lastFireTime = 0;
+    const fireRate = 100; // Minimum time between shots in milliseconds
+
+    // Prevent space key from scrolling
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+            e.preventDefault();
+            if (!isFiring) {
+                isFiring = true;
+                fireBullet();
+                
+                // Set up continuous firing
+                const fireInterval = setInterval(() => {
+                    if (isFiring) {
+                        fireBullet();
+                    } else {
+                        clearInterval(fireInterval);
+                    }
+                }, fireRate);
+            }
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.code === 'Space') {
+            isFiring = false;
+        }
+    });
+
+    // Handle mouse down for continuous firing from footer-grid and rocket-container
+    [footerGrid, rocketContainer].forEach(element => {
+        element.addEventListener('mousedown', () => {
+            isFiring = true;
+            fireBullet(); // Fire immediately on click
+            
+            // Set up continuous firing
+            const fireInterval = setInterval(() => {
+                if (isFiring) {
+                    fireBullet();
+                } else {
+                    clearInterval(fireInterval);
+                }
+            }, fireRate);
+        });
+    });
+
+    // Handle mouse up to stop firing
+    document.addEventListener('mouseup', () => {
+        isFiring = false;
+    });
+
+    // Create bullet element
+    function createBullet() {
+        const bulletElement = document.createElement('div');
+        bulletElement.className = 'bullet';
+        document.body.appendChild(bulletElement);
+        return bulletElement;
+    }
+
+    // Create bullet trail
+    function createBulletTrail() {
+        const trail = document.createElement('div');
+        trail.className = 'bullet-trail';
+        document.body.appendChild(trail);
+        return trail;
+    }
+
+    // Create pixel dust effect
+    function createPixelDust(x, y) {
+        const dust = document.createElement('div');
+        dust.className = 'pixel-dust';
+        dust.style.left = `${x}px`;
+        dust.style.top = `${y}px`;
+        
+        // Random direction
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 20 + Math.random() * 30;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        
+        dust.style.setProperty('--tx', `${tx}px`);
+        dust.style.setProperty('--ty', `${ty}px`);
+        
+        document.body.appendChild(dust);
+        
+        const animation = dust.animate([
+            { transform: 'translate(0, 0) scale(1)', opacity: 0.8 },
+            { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+        ], {
+            duration: 500 + Math.random() * 500,
+            easing: 'ease-out',
+            fill: 'forwards'
+        });
+        
+        animation.onfinish = () => dust.remove();
+    }
+
+    // Smooth animation function
+    function animateRocket() {
+        const dx = targetX - currentX;
+        currentX += dx * 0.1; // Smoothing factor
+        
+        if (Math.abs(dx) > 0.1) {
+            rocket.style.left = `${currentX}px`;
+        } else {
+            rocket.style.left = `${targetX}px`;
+        }
+        
+        // Always request next frame to keep movement smooth
+        animationFrame = requestAnimationFrame(animateRocket);
+    }
+
+    // Start the animation loop
+    animateRocket();
+
+    // Handle mouse move for rocket
+    document.addEventListener('mousemove', (e) => {
+        const containerRect = rocketContainer.getBoundingClientRect();
+        const rocketWidth = rocket.offsetWidth;
+        
+        // Calculate target position
+        targetX = Math.max(0, Math.min(
+            e.clientX - containerRect.left - (rocketWidth / 2),
+            containerRect.width - rocketWidth
+        ));
+        
+        lastMouseX = e.clientX;
+    });
+
+    // Fire bullet function
+    function fireBullet() {
+        const now = Date.now();
+        if (now - lastFireTime < fireRate) return; // Rate limiting
+        
+        lastFireTime = now;
+        const rocketRect = rocket.getBoundingClientRect();
+        const bullet = createBullet();
+        const trail = createBulletTrail();
+        
+        // Position bullet and trail at rocket's center
+        const bulletX = rocketRect.left + rocketRect.width / 2;
+        const bulletY = rocketRect.top;
+        
+        bullet.style.left = `${bulletX}px`;
+        bullet.style.top = `${bulletY}px`;
+        
+        trail.style.left = `${bulletX}px`;
+        trail.style.top = `${bulletY}px`;
+        
+        // Create initial pixel dust
+        for (let i = 0; i < 3; i++) {
+            createPixelDust(bulletX, bulletY);
+        }
+        
+        // Trigger animation
+        requestAnimationFrame(() => {
+            bullet.classList.add('active');
+            
+            // Animate bullet upward with pixel dust trail
+            const animation = bullet.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(-100vh)', opacity: 0 }
+            ], {
+                duration: 1500,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+            
+            // Create pixel dust during animation
+            const dustInterval = setInterval(() => {
+                const currentY = parseFloat(bullet.style.top);
+                createPixelDust(bulletX, currentY);
+            }, 30);
+            
+            // Animate trail
+            const trailAnimation = trail.animate([
+                { transform: 'scaleY(1)', opacity: 0.8 },
+                { transform: 'scaleY(0)', opacity: 0 }
+            ], {
+                duration: 1500,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+            
+            // Remove elements after animation
+            animation.onfinish = () => {
+                clearInterval(dustInterval);
+                bullet.remove();
+                trail.remove();
+            };
+        });
+    }
+
+    // Clean up animation frame on unmount
+    onDestroy(() => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+    });
 </script>
 </div>
