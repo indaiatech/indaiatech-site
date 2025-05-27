@@ -59,7 +59,7 @@
 
     .tech {
         font-family: 'Nunito', sans-serif;
-        font-weight: 500;
+        font-weight: 400;
         font-size: 2rem;
         color: #a880ff;
         margin: 0;
@@ -68,11 +68,40 @@
         margin-left: 2px;
         opacity: 0;
         transform: translateX(30px);
-        animation: slideInRight 1.2s ease-out 0.8s forwards;
+        animation: slideInRight 1.2s ease-out 0.8s forwards, gradientAnimation 3s linear infinite;
         position: relative;
         --gradient-angle: 252deg;
         --gradient-start: #6521FF;
         --gradient-end: #B493FF;
+        background: linear-gradient(var(--gradient-angle), var(--gradient-start), var(--gradient-end));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    @keyframes slideInLeft {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes gradientAnimation {
+        0% {
+            --gradient-angle: 0deg;
+        }
+        100% {
+            --gradient-angle: 360deg;
+        }
     }
 
     .particles {
@@ -103,20 +132,6 @@
         -webkit-text-fill-color: transparent;
         color: transparent;
         transition: all 0.3s ease;
-    }
-
-    @keyframes slideInLeft {
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideInRight {
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
     }
 
     .nav-links {
@@ -317,6 +332,23 @@
     // Mouse follow effect for logo tech text
     const logoContainer = document.querySelector('.logo-container');
     const techText = document.querySelector('.tech');
+    
+    // Set initial gradient animation
+    function updateGradient() {
+        const angle = (Date.now() / 50) % 360;
+        const startColor = `hsl(${angle}, 100%, 50%)`;
+        const endColor = `hsl(${(angle + 60) % 360}, 100%, 70%)`;
+        
+        techText.style.setProperty('--gradient-angle', `${angle}deg`);
+        techText.style.setProperty('--gradient-start', startColor);
+        techText.style.setProperty('--gradient-end', endColor);
+        techText.style.textShadow = `0 0 15px rgba(101, 33, 255, 0.5)`;
+        
+        requestAnimationFrame(updateGradient);
+    }
+    
+    // Start the gradient animation
+    updateGradient();
     
     logoContainer.addEventListener('mousemove', (e) => {
         const rect = logoContainer.getBoundingClientRect();
