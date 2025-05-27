@@ -193,13 +193,23 @@
         z-index: 1;
     }
 
-    .video-gradient {
+    /* .video-gradient {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 50%;
         background: linear-gradient(to bottom, transparent, rgba(0,0,0,1));
+        z-index: 3;
+    } */
+
+    .video-gradient {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30%;
+        background: linear-gradient(to bottom, transparent, #1a1a1a);
         z-index: 3;
     }
 
@@ -311,26 +321,72 @@
 
     .benefits {
         padding: 6rem 4rem;
-        color: #333;
+        color: #e0e0e0;
         position: relative;
         z-index: 2;
-        background: #f5f5f5;
+        background: #1a1a1a;
+        overflow: hidden;
+    }
+
+    .dots-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .dot {
+        position: absolute;
+        width: var(--dot-size, 1px);
+        height: var(--dot-size, 1px);
+        background: rgba(255, 255, 255, var(--dot-opacity, 0.08));
+        border-radius: 50%;
+        transition: transform var(--transition-speed, 0.3s) ease, background var(--transition-speed, 0.3s) ease;
+    }
+
+    .benefits .section-content {
+        position: relative;
+        z-index: 2;
     }
 
     .steps {
-        padding: 6rem 4rem;
-        color: #333;
+        padding: 6rem 4rem 10rem 4rem;
+        color: #e0e0e0;
         position: relative;
         z-index: 2;
-        background: #fff;
+        background: #262626;
     }
 
     .testimonials {
-        padding: 6rem 4rem;
-        color: #f8fafd;
+        padding: 6rem 4rem 10rem 4rem;
+        color: #e0e0e0;
         position: relative;
         z-index: 2;
-        background: #333;
+        background: #1a1a1a;
+        background-image: url('/images/bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .testimonials::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
+
+    .testimonials .section-content {
+        position: relative;
+        z-index: 2;
     }
 
     .section-content {
@@ -343,7 +399,7 @@
         margin-bottom: 3rem;
         text-align: center;
         font-weight: 200;
-        background: linear-gradient(55deg,#6521FF,#b694ff 74%,#a880ff);
+        background: linear-gradient(55deg,#a880ff,#b694ff 74%,#c4a8ff);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -351,28 +407,34 @@
 
     .benefits-grid, .steps-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 2rem;
     }
 
     .benefit-card, .step-card {
-        background: rgba(0, 0, 0, 0.03);
+        background: rgba(255, 255, 255, 0.03);
         padding: 2rem;
         border-radius: 15px;
         backdrop-filter: blur(10px);
         transition: transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-card img {
+        z-index: 10;
+        position: relative;
     }
 
     .benefit-card:hover, .step-card:hover {
         transform: translateY(-5px);
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .benefit-card h3, .step-card h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
-        color: #6521FF;
+        color: #f2f2f2;
+        font-weight: 400;
     }
 
     .benefit-card ul {
@@ -384,26 +446,25 @@
         margin-bottom: 0.8rem;
         padding-left: 1.5rem;
         position: relative;
-        color: #333;
+        color: #e0e0e0;
     }
 
     .benefit-card li::before {
         content: "→";
         position: absolute;
         left: 0;
-        color: #6521FF;
+        color: #a880ff;
     }
 
     .step-number {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(252deg, #6521FF, #B493FF);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        font-weight: bold;
+        position: absolute;
+        top: -3rem;
+        left: -2rem;
+        font-size: 16rem;
+        font-weight: 800;
+        color: rgba(168, 128, 255, 0.15);
+        line-height: 1;
+        z-index: 1;
     }
 
     .testimonials-grid {
@@ -413,17 +474,19 @@
     }
 
     .testimonial-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.03);
         padding: 2rem;
         border-radius: 15px;
         backdrop-filter: blur(10px);
         text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .testimonial-card p {
         font-size: 1.2rem;
         margin-bottom: 1rem;
         font-style: italic;
+        color: #e0e0e0;
     }
 
     .testimonial-card .author {
@@ -444,26 +507,23 @@
     .footer {
         background: rgba(10, 10, 10, 0.95);
         backdrop-filter: blur(10px);
-        padding: 12rem 4rem 4rem;
+        padding: 16rem 4rem 10rem;
         color: #f8fafd;
         position: relative;
         z-index: 2;
     }
 
     .footer-content {
-        max-width: 1400px;
+        max-width: 1200px;
         margin: 0 auto;
     }
 
     .footer-grid {
-        display: grid;
-        grid-template-columns: 2fr repeat(3, 1fr);
-        gap: 6rem;
-        margin-bottom: 5rem;
+        margin-bottom: 4rem;
     }
 
     .footer-brand {
-        max-width: 400px;
+        max-width: 600px;
     }
 
     .footer-logo {
@@ -485,49 +545,39 @@
         -webkit-text-fill-color: transparent;
     }
 
-    .footer-brand p {
+    .footer-tagline {
+        font-size: 1.5rem;
+        color: #f8fafd;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+    }
+
+    .footer-description {
         color: #aaa;
-        margin-bottom: 2rem;
         font-size: 1.1rem;
         line-height: 1.6;
     }
 
-    .social-links {
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
         display: flex;
-        gap: 1.5rem;
-    }
-
-    .social-links a {
-        color: #f8fafd;
-        transition: color 0.3s ease;
-    }
-
-    .social-links a:hover {
-        color: #a880ff;
-    }
-
-    .footer-links h4 {
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
         color: #aaa;
-        font-size: 1.3rem;
-        margin-bottom: 2rem;
-        font-weight: 200;
     }
 
-    .footer-links ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .footer-links li {
-        margin-bottom: 1.2rem;
+    .footer-links {
+        display: flex;
+        gap: 2rem;
     }
 
     .footer-links a {
         color: #f8fafd;
         text-decoration: none;
         transition: color 0.3s ease;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-decoration: underline;
         text-decoration-color: #a880ff;
         text-decoration-thickness: 2px;
@@ -536,35 +586,65 @@
 
     .footer-links a:hover {
         color: #a880ff;
-        text-decoration-thickness: 2px;
-    }
-
-    .footer-bottom {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 3rem;
-        text-align: center;
-        font-size: 1.1rem;
-        color: #aaa;
     }
 
     @media (max-width: 768px) {
-        .footer-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+        .footer {
+            padding: 4rem 2rem 2rem;
         }
         
-        .footer-brand {
-            max-width: 100%;
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
             text-align: center;
-        }
-        
-        .social-links {
-            justify-content: center;
         }
         
         .footer-links {
-            text-align: center;
+            justify-content: center;
         }
+        
+        .footer-tagline {
+            font-size: 1.3rem;
+        }
+    }
+
+    .step-card {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .step-image {
+        width: 200px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .step-card:hover .step-image {
+        transform: scale(1.05);
+    }
+
+    .step-card h3 {
+        position: relative;
+        z-index: 2;
+    }
+
+    .step-card p {
+        position: relative;
+        z-index: 2;
     }
 </style>
 
@@ -581,7 +661,7 @@
         <h1 class="tech">tech</h1>
     </div>
     <div class="nav-links">
-        <a href="#features">comece grátis</a>
+        <a href="#features">comece GRÁTIS</a>
         <a href="#pricing">language (pt-BR)</a>
         <a href="#contact">entrar</a>
     </div>
@@ -594,7 +674,7 @@
     <div class="video-gradient"></div>
     <div class="hero-content">
         <h1><strong>Atendimento</strong> por <strong>AI</strong><br>com <strong>personalização</strong></h1>
-        <h2>GRÁTIS por 3 meses.</h2>
+        <h2>GRÁTIS por 1 mês.</h2>
         <p>depois R$ 99/mês, cancele quando quiser, sem multa.</p>
         <button class="cta-button"><span>Comece Já!</span></button>
     </div>
@@ -603,6 +683,7 @@
 <div class="bg-pattern"></div>
 
 <section class="benefits">
+    <div class="dots-pattern" id="dotsPattern"></div>
     <div class="section-content">
         <h2>Benefícios</h2>
         <div class="benefits-grid">
@@ -634,21 +715,25 @@
         <h2>Como começar</h2>
         <div class="steps-grid">
             <div class="step-card">
+                <img src="/images/0.png" alt="Personalização" class="step-image">
                 <div class="step-number">1</div>
                 <h3>Personalização</h3>
-                <p>Se quiser você pode apenas configurar o básico e comece a usar</p>
+                <p>Em 2 min você já pode começar a usar.</p>
             </div>
             <div class="step-card">
+                <img src="/images/4.png" alt="Integração WhatsApp" class="step-image">
                 <div class="step-number">2</div>
                 <h3>Integração WhatsApp</h3>
                 <p>Conecte seu número e pronto!</p>
             </div>
             <div class="step-card">
+                <img src="/images/2.png" alt="Dashboard Completo" class="step-image">
                 <div class="step-number">3</div>
                 <h3>Dashboard Completo</h3>
                 <p>Acesse métricas e gerencie conversas de fluxos especiais</p>
             </div>
             <div class="step-card">
+                <img src="/images/3.png" alt="Notificações e Reports" class="step-image">
                 <div class="step-number">4</div>
                 <h3>Notificações e Reports</h3>
                 <p>Receba atualizações e relatórios detalhados</p>
@@ -659,7 +744,7 @@
 
 <section class="testimonials">
     <div class="section-content">
-        <h2>O que dizem nossos clientes</h2>
+        <h2>Quem testou disse</h2>
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <p>"É como um novo funcionário eficiente"</p>
@@ -685,53 +770,36 @@
                     <span class="indaia">indaia</span>
                     <span class="tech">tech</span>
                 </div>
-                <p>Transformando atendimento com inteligência artificial</p>
-                <div class="social-links">
-                    <a href="https://instagram.com/indaiatech" target="_blank" rel="noopener noreferrer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Empresa</h4>
-                <ul>
-                    <li><a href="#about">Sobre nós</a></li>
-                    <li><a href="#careers">Carreiras</a></li>
-                    <li><a href="#contact">Contato</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Produto</h4>
-                <ul>
-                    <li><a href="#features">Funcionalidades</a></li>
-                    <li><a href="#pricing">Preços</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#privacy">Privacidade</a></li>
-                    <li><a href="#terms">Termos</a></li>
-                    <li><a href="#security">Segurança</a></li>
-                </ul>
+                <p class="footer-tagline">Transformando atendimento com inteligência artificial</p>
+                <p class="footer-description">Somos uma empresa focada em transformar o atendimento ao cliente através de soluções inovadoras de inteligência artificial, tornando o processo mais eficiente e personalizado.</p>
             </div>
         </div>
         
         <div class="footer-bottom">
+            <div class="footer-links">
+                <a href="#privacy">Privacidade</a>
+                <a href="#terms">Termos de uso</a>
+            </div>
             <p>&copy; {new Date().getFullYear()} indaiatech. Todos os direitos reservados.</p>
         </div>
     </div>
 </footer>
 
 <script>
+    // Dots pattern configuration
+    const dotsConfig = {
+        count: 600,
+        size: 1,
+        baseOpacity: 0.08,
+        maxOpacity: 0.5,
+        interactionRadius: 200,
+        maxScale: 3,
+        clustering: 0.8,
+        transitionSpeed: 0.3,
+        gridSpacing: 20,  // Space between dots in pixels
+        gridOffset: 10    // Offset to create a more natural look
+    };
+
     // Mouse follow effect for logo tech text
     const logoContainer = document.querySelector('.logo-container');
     const techText = document.querySelector('.tech');
@@ -882,5 +950,87 @@
             createParticle();
         }
     }, 800);
+
+    // Create interactive dots pattern
+    function createDotsPattern() {
+        const container = document.getElementById('dotsPattern');
+        const dots = [];
+
+        // Calculate grid dimensions
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
+        const cols = Math.ceil(containerWidth / dotsConfig.gridSpacing);
+        const rows = Math.ceil(containerHeight / dotsConfig.gridSpacing);
+
+        // Create grid of dots
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                
+                // Calculate position with slight offset for natural look
+                const offsetX = (Math.random() - 0.5) * dotsConfig.gridOffset;
+                const offsetY = (Math.random() - 0.5) * dotsConfig.gridOffset;
+                
+                const x = (col * dotsConfig.gridSpacing) + offsetX;
+                const y = (row * dotsConfig.gridSpacing) + offsetY;
+                
+                dot.style.left = `${x}px`;
+                dot.style.top = `${y}px`;
+                
+                container.appendChild(dot);
+                dots.push(dot);
+            }
+        }
+
+        // Mouse move effect
+        document.querySelector('.benefits').addEventListener('mousemove', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            dots.forEach(dot => {
+                const dotX = parseFloat(dot.style.left);
+                const dotY = parseFloat(dot.style.top);
+                
+                const distance = Math.sqrt(
+                    Math.pow(x - dotX, 2) + 
+                    Math.pow(y - dotY, 2)
+                );
+                
+                if (distance < dotsConfig.interactionRadius) {
+                    const intensity = 1 - (distance / dotsConfig.interactionRadius);
+                    dot.style.transform = `scale(${1 + intensity * dotsConfig.maxScale})`;
+                    dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity + intensity * (dotsConfig.maxOpacity - dotsConfig.baseOpacity)})`;
+                } else {
+                    dot.style.transform = 'scale(1)';
+                    dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
+                }
+            });
+        });
+
+        // Reset dots on mouse leave
+        document.querySelector('.benefits').addEventListener('mouseleave', () => {
+            dots.forEach(dot => {
+                dot.style.transform = 'scale(1)';
+                dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
+            });
+        });
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Remove all existing dots
+                dots.forEach(dot => dot.remove());
+                // Recreate the pattern
+                createDotsPattern();
+            }, 250);
+        });
+    }
+
+    // Initialize dots pattern
+    createDotsPattern();
 </script>
 </div>
