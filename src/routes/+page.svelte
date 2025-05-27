@@ -516,7 +516,7 @@
     .footer {
         background: rgba(10, 10, 10, 0.95);
         backdrop-filter: blur(10px);
-        padding: 16rem 4rem 4rem;
+        /* padding: 16rem 4rem 4rem; */
         color: #f8fafd;
         position: relative;
         z-index: 2;
@@ -529,6 +529,7 @@
 
     .footer-grid {
         /* margin-bottom: 4rem; */
+        padding: 16rem 4rem 0rem;
     }
 
     .footer-brand {
@@ -689,7 +690,8 @@
 
     .footer-bottom {
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 2rem;
+        margin: 0 4rem;
+        padding: 1rem 0 10rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
