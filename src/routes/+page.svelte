@@ -94,7 +94,6 @@
     }
 
     .logo-container:hover .indaia {
-        /* animation: pulse 1.5s ease-in-out infinite; */
     }
 
     .logo-container:hover .tech {
@@ -104,17 +103,6 @@
         -webkit-text-fill-color: transparent;
         color: transparent;
         transition: all 0.3s ease;
-    }
-
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-        50% {
-            transform: scale(1.05);
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
-        }
     }
 
     @keyframes slideInLeft {
@@ -128,24 +116,6 @@
         to {
             opacity: 1;
             transform: translateX(0);
-        }
-    }
-
-    @keyframes glowSweep {
-        0% {
-            background-position: 100% 0;
-        }
-        100% {
-            background-position: 0 0;
-        }
-    }
-
-    @keyframes techLightSweep {
-        0% {
-            background-position: 200% 0;
-        }
-        100% {
-            background-position: 0 0;
         }
     }
 
