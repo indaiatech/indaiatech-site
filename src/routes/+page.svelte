@@ -61,7 +61,7 @@
         font-family: 'Nunito', sans-serif;
         font-weight: 500;
         font-size: 2rem;
-        color: #4854FF;
+        color: #a880ff;
         margin: 0;
         padding: 0;
         line-height: 1;
@@ -194,7 +194,7 @@
         font-size: 2.5rem;
         margin-bottom: 1rem;
         font-family: 'Nunito', sans-serif;
-        background: linear-gradient(135deg, #ffffff 0%, #1828FF 100%);
+        background: linear-gradient(55deg,#dcccff,#b694ff 74%,#a880ff);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -306,7 +306,7 @@
     <div class="hero-content">
         <h1><strong>Atendimento</strong> por <strong>AI</strong><br>com <strong>personalização</strong></h1>
         <h2>GRÁTIS por 3 meses.</h2>
-        <p>depois R$ 99/mês, cancele quando quiser.</p>
+        <p>depois R$ 99/mês, cancele quando quiser, sem multa.</p>
         <button class="cta-button"><span>Comece Já!</span></button>
     </div>
 </div>
