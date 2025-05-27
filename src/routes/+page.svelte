@@ -4,10 +4,14 @@
     body {
         margin: 0;
         padding: 0;
-        background: #0a0a0a;
+        background: #000;
         font-family: 'Nunito', sans-serif;
         overflow-x: hidden;
         cursor: default;
+    }
+
+    a, button {
+        cursor: pointer!important;
     }
 
     .navbar {
@@ -189,6 +193,16 @@
         z-index: 1;
     }
 
+    .video-gradient {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(to bottom, transparent, rgba(0,0,0,1));
+        z-index: 3;
+    }
+
     .hero-content {
         max-width: 800px;
         padding: 4rem;
@@ -263,7 +277,7 @@
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 
-    .bg-pattern {
+    /* .bg-pattern {
         position: fixed;
         top: 0;
         left: 0;
@@ -276,7 +290,7 @@
         background-size: 50px 50px;
         animation: patternMove 20s linear infinite;
         z-index: -1;
-    }
+    } */
 
     @keyframes patternMove {
         0% {
@@ -295,11 +309,28 @@
         .indaia, .tech { font-size: 1.5rem; }
     }
 
-    .benefits, .steps, .testimonials {
+    .benefits {
         padding: 6rem 4rem;
         color: #f8fafd;
         position: relative;
         z-index: 2;
+        background: #f5f5f5;
+    }
+
+    .steps {
+        padding: 6rem 4rem;
+        color: #f8fafd;
+        position: relative;
+        z-index: 2;
+        background: #fff;
+    }
+
+    .testimonials {
+        padding: 6rem 4rem;
+        color: #f8fafd;
+        position: relative;
+        z-index: 2;
+        background: #333;
     }
 
     .section-content {
@@ -410,40 +441,40 @@
     .footer {
         background: rgba(10, 10, 10, 0.95);
         backdrop-filter: blur(10px);
-        padding: 4rem 2rem 2rem;
+        padding: 12rem 4rem 4rem;
         color: #f8fafd;
         position: relative;
         z-index: 2;
     }
 
     .footer-content {
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
     }
 
     .footer-grid {
         display: grid;
         grid-template-columns: 2fr repeat(3, 1fr);
-        gap: 4rem;
-        margin-bottom: 3rem;
+        gap: 6rem;
+        margin-bottom: 5rem;
     }
 
     .footer-brand {
-        max-width: 300px;
+        max-width: 400px;
     }
 
     .footer-logo {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
     .footer-logo .indaia {
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 200;
         color: #f8fafd;
     }
 
     .footer-logo .tech {
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 400;
         background: linear-gradient(252deg, #6521FF, #B493FF);
         -webkit-background-clip: text;
@@ -453,13 +484,14 @@
 
     .footer-brand p {
         color: #aaa;
-        margin-bottom: 1.5rem;
-        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
     }
 
     .social-links {
         display: flex;
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .social-links a {
@@ -472,10 +504,10 @@
     }
 
     .footer-links h4 {
-        color: #f8fafd;
-        font-size: 1.1rem;
-        margin-bottom: 1.5rem;
-        font-weight: 400;
+        color: #aaa;
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        font-weight: 200;
     }
 
     .footer-links ul {
@@ -485,14 +517,14 @@
     }
 
     .footer-links li {
-        margin-bottom: 0.8rem;
+        margin-bottom: 1.2rem;
     }
 
     .footer-links a {
         color: #f8fafd;
         text-decoration: none;
         transition: color 0.3s ease;
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         text-decoration: underline;
         text-decoration-color: #a880ff;
         text-decoration-thickness: 2px;
@@ -506,9 +538,9 @@
 
     .footer-bottom {
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 2rem;
+        padding-top: 3rem;
         text-align: center;
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         color: #aaa;
     }
 
@@ -556,6 +588,7 @@
     <video class="video-background" autoplay muted loop playsinline>
         <source src="/videos/app-demo.mp4" type="video/mp4">
     </video>
+    <div class="video-gradient"></div>
     <div class="hero-content">
         <h1><strong>Atendimento</strong> por <strong>AI</strong><br>com <strong>personalização</strong></h1>
         <h2>GRÁTIS por 3 meses.</h2>
@@ -571,21 +604,22 @@
         <h2>Benefícios</h2>
         <div class="benefits-grid">
             <div class="benefit-card">
-                <h3>Para Você</h3>
+                <h3>Para seu cliente</h3>
                 <ul>
                     <li>Atendimento 24/7</li>
                     <li>Automatizado mas humanizado</li>
-                    <li>Respostas instantâneas</li>
-                    <li>Suporte personalizado</li>
+                    <li>Respostas quase que instantâneas para simular atendimento humado</li>
+                    <li>Fluxo personalizado para casos especiais</li>
                 </ul>
             </div>
             <div class="benefit-card">
-                <h3>Para Profissionais</h3>
+                <h3>Para você</h3>
                 <ul>
+                    <li>Qualidade no atendimento</li>
                     <li>Gestão centralizada</li>
-                    <li>Análise de desempenho</li>
+                    <li>Sem gestão de pessoas</li>
                     <li>Relatórios detalhados</li>
-                    <li>Escalabilidade</li>
+                    <li>Custo baixo</li>
                 </ul>
             </div>
         </div>
@@ -594,22 +628,22 @@
 
 <section class="steps">
     <div class="section-content">
-        <h2>Como Começar</h2>
+        <h2>Como começar</h2>
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-number">1</div>
-                <h3>Personalização Simples</h3>
-                <p>Configure sua identidade e respostas em minutos</p>
+                <h3>Personalização</h3>
+                <p>Se quiser você pode apenas configurar o básico e comece a usar</p>
             </div>
             <div class="step-card">
                 <div class="step-number">2</div>
                 <h3>Integração WhatsApp</h3>
-                <p>Conecte seu número e comece imediatamente</p>
+                <p>Conecte seu número e pronto!</p>
             </div>
             <div class="step-card">
                 <div class="step-number">3</div>
                 <h3>Dashboard Completo</h3>
-                <p>Acesse métricas e gerencie conversas</p>
+                <p>Acesse métricas e gerencie conversas de fluxos especiais</p>
             </div>
             <div class="step-card">
                 <div class="step-number">4</div>
@@ -622,19 +656,19 @@
 
 <section class="testimonials">
     <div class="section-content">
-        <h2>O Que Dizem Nossos Usuários</h2>
+        <h2>O que dizem nossos clientes</h2>
         <div class="testimonials-grid">
             <div class="testimonial-card">
-                <p>"Como um novo funcionário eficiente e eficaz"</p>
-                <span class="author">- Cliente Satisfeito</span>
+                <p>"É como um novo funcionário eficiente"</p>
+                <span class="author">— Rafael Sato, advogado.</span>
             </div>
             <div class="testimonial-card">
-                <p>"Sempre disponível"</p>
-                <span class="author">- Empresa Parceira</span>
+                <p>"Nada como estar sempre disponível"</p>
+                <span class="author">— Carlos Sanches, vendedor.</span>
             </div>
             <div class="testimonial-card">
-                <p>"Agora sem mais dores de cabeça"</p>
-                <span class="author">- Usuário Premium</span>
+                <p>"Agora sim, sem mais dores de cabeça"</p>
+                <span class="author">— Cintia Menezes, dentista.</span>
             </div>
         </div>
     </div>
@@ -689,7 +723,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} IndaiaTech. Todos os direitos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} indaiatech. Todos os direitos reservados.</p>
         </div>
     </div>
 </footer>
