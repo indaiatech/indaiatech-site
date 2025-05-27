@@ -18,7 +18,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 2rem 3rem 0 3rem;
+        padding: 2rem 3rem;
         /* background: rgba(10, 10, 10, 0.8); */
         backdrop-filter: blur(10px);
         z-index: 1000;
@@ -140,19 +140,20 @@
     }
 
     .nav-links a {
-        color: #f8fafd;
-        text-decoration: underline;
-        text-decoration-color: #f2f2f2;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 4px;
+        text-decoration: none;
         font-weight: 200;
         font-family: 'Nunito', sans-serif;
         transition: color 0.3s ease;
+        color: #f8fafd;
+        text-decoration: underline;
+        text-decoration-color: #a880ff;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
     }
 
     .nav-links a:hover {
-        color: #00d4ff;
-        text-decoration-color: #00d4ff;
+        color: #a880ff;
+        text-decoration-thickness: 2px;
     }
 
     .hero {
@@ -293,6 +294,243 @@
         .nav-links { gap: 1rem; }
         .indaia, .tech { font-size: 1.5rem; }
     }
+
+    .benefits, .steps, .testimonials {
+        padding: 6rem 4rem;
+        color: #f8fafd;
+        position: relative;
+        z-index: 2;
+    }
+
+    .section-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        text-align: center;
+        font-weight: 200;
+        background: linear-gradient(55deg,#dcccff,#b694ff 74%,#a880ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .benefits-grid, .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .benefit-card, .step-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+    }
+
+    .benefit-card:hover, .step-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .benefit-card h3, .step-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #a880ff;
+    }
+
+    .benefit-card ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .benefit-card li {
+        margin-bottom: 0.8rem;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+    .benefit-card li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: #a880ff;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(252deg, #6521FF, #B493FF);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .testimonial-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        text-align: center;
+    }
+
+    .testimonial-card p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        font-style: italic;
+    }
+
+    .testimonial-card .author {
+        color: #a880ff;
+        font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+        .benefits, .steps, .testimonials {
+            padding: 4rem 2rem;
+        }
+        
+        .section-content h2 {
+            font-size: 2rem;
+        }
+    }
+
+    .footer {
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 4rem 2rem 2rem;
+        color: #f8fafd;
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr repeat(3, 1fr);
+        gap: 4rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+        max-width: 300px;
+    }
+
+    .footer-logo {
+        margin-bottom: 1rem;
+    }
+
+    .footer-logo .indaia {
+        font-size: 1.5rem;
+        font-weight: 200;
+        color: #f8fafd;
+    }
+
+    .footer-logo .tech {
+        font-size: 1.5rem;
+        font-weight: 400;
+        background: linear-gradient(252deg, #6521FF, #B493FF);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .footer-brand p {
+        color: #aaa;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-links a {
+        color: #f8fafd;
+        transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+        color: #a880ff;
+    }
+
+    .footer-links h4 {
+        color: #f8fafd;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 400;
+    }
+
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+        color: #f8fafd;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 0.9rem;
+        text-decoration: underline;
+        text-decoration-color: #a880ff;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+    }
+
+    .footer-links a:hover {
+        color: #a880ff;
+        text-decoration-thickness: 2px;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .footer-brand {
+            max-width: 100%;
+            text-align: center;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+        
+        .footer-links {
+            text-align: center;
+        }
+    }
 </style>
 
 <nav class="navbar">
@@ -327,6 +565,134 @@
 </div>
 
 <div class="bg-pattern"></div>
+
+<section class="benefits">
+    <div class="section-content">
+        <h2>Benefícios</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>Para Você</h3>
+                <ul>
+                    <li>Atendimento 24/7</li>
+                    <li>Automatizado mas humanizado</li>
+                    <li>Respostas instantâneas</li>
+                    <li>Suporte personalizado</li>
+                </ul>
+            </div>
+            <div class="benefit-card">
+                <h3>Para Profissionais</h3>
+                <ul>
+                    <li>Gestão centralizada</li>
+                    <li>Análise de desempenho</li>
+                    <li>Relatórios detalhados</li>
+                    <li>Escalabilidade</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="steps">
+    <div class="section-content">
+        <h2>Como Começar</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Personalização Simples</h3>
+                <p>Configure sua identidade e respostas em minutos</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Integração WhatsApp</h3>
+                <p>Conecte seu número e comece imediatamente</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Dashboard Completo</h3>
+                <p>Acesse métricas e gerencie conversas</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Notificações e Reports</h3>
+                <p>Receba atualizações e relatórios detalhados</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="section-content">
+        <h2>O Que Dizem Nossos Usuários</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p>"Como um novo funcionário eficiente e eficaz"</p>
+                <span class="author">- Cliente Satisfeito</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Sempre disponível"</p>
+                <span class="author">- Empresa Parceira</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Agora sem mais dores de cabeça"</p>
+                <span class="author">- Usuário Premium</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <span class="indaia">indaia</span>
+                    <span class="tech">tech</span>
+                </div>
+                <p>Transformando atendimento com inteligência artificial</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/indaiatech" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="#about">Sobre nós</a></li>
+                    <li><a href="#careers">Carreiras</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Produto</h4>
+                <ul>
+                    <li><a href="#features">Funcionalidades</a></li>
+                    <li><a href="#pricing">Preços</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#privacy">Privacidade</a></li>
+                    <li><a href="#terms">Termos</a></li>
+                    <li><a href="#security">Segurança</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} IndaiaTech. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
 
 <script>
     // Mouse follow effect for logo tech text
