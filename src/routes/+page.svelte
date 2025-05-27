@@ -311,7 +311,7 @@
 
     .benefits {
         padding: 6rem 4rem;
-        color: #f8fafd;
+        color: #333;
         position: relative;
         z-index: 2;
         background: #f5f5f5;
@@ -319,7 +319,7 @@
 
     .steps {
         padding: 6rem 4rem;
-        color: #f8fafd;
+        color: #333;
         position: relative;
         z-index: 2;
         background: #fff;
@@ -343,7 +343,7 @@
         margin-bottom: 3rem;
         text-align: center;
         font-weight: 200;
-        background: linear-gradient(55deg,#dcccff,#b694ff 74%,#a880ff);
+        background: linear-gradient(55deg,#6521FF,#b694ff 74%,#a880ff);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -356,21 +356,23 @@
     }
 
     .benefit-card, .step-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.03);
         padding: 2rem;
         border-radius: 15px;
         backdrop-filter: blur(10px);
         transition: transform 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     }
 
     .benefit-card:hover, .step-card:hover {
         transform: translateY(-5px);
+        background: rgba(0, 0, 0, 0.05);
     }
 
     .benefit-card h3, .step-card h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
-        color: #a880ff;
+        color: #6521FF;
     }
 
     .benefit-card ul {
@@ -382,13 +384,14 @@
         margin-bottom: 0.8rem;
         padding-left: 1.5rem;
         position: relative;
+        color: #333;
     }
 
     .benefit-card li::before {
         content: "→";
         position: absolute;
         left: 0;
-        color: #a880ff;
+        color: #6521FF;
     }
 
     .step-number {
