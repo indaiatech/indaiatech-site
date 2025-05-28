@@ -1,3 +1,534 @@
+<script lang="ts">
+    import { onMount, onDestroy } from 'svelte';
+
+    let showLanguageDropdown: boolean = false;
+    let currentLanguage: 'pt-BR' | 'en-US' = 'pt-BR';
+
+    function toggleLanguageDropdown(): void {
+        showLanguageDropdown = !showLanguageDropdown;
+    }
+
+    function selectLanguage(lang: 'pt-BR' | 'en-US'): void {
+        currentLanguage = lang;
+        showLanguageDropdown = false;
+        // Here you can add logic to change the language of your application
+    }
+
+    onMount(() => {
+        // Close dropdown when clicking outside
+        const handleClickOutside = (e: MouseEvent) => {
+            const dropdown = document.querySelector('.language-dropdown');
+            if (dropdown && !dropdown.contains(e.target as Node)) {
+                showLanguageDropdown = false;
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        // Dots pattern configuration
+        const dotsConfig = {
+            gridSize: 20, // 20x20 grid
+            size: 1,
+            baseOpacity: 0.03,
+            maxOpacity: 1.0,   // Changed to full opacity
+            interactionRadius: 80,
+            maxScale: 1.5,
+            transitionSpeed: 0.2
+        };
+
+        // Mouse follow effect for logo tech text
+        const logoContainer = document.querySelector('.logo-container') as HTMLElement | null;
+        const techText = document.querySelector('.tech') as HTMLElement | null;
+        
+        // Set initial gradient animation
+        function updateGradient() {
+            if (!techText) return;
+            const angle = (Date.now() / 50) % 360;
+            const startColor = `hsl(${angle}, 100%, 50%)`;
+            const endColor = `hsl(${(angle + 60) % 360}, 100%, 70%)`;
+            
+            techText.style.setProperty('--gradient-angle', `${angle}deg`);
+            techText.style.setProperty('--gradient-start', startColor);
+            techText.style.setProperty('--gradient-end', endColor);
+            techText.style.textShadow = `0 0 15px rgba(101, 33, 255, 0.5)`;
+            
+            requestAnimationFrame(updateGradient);
+        }
+        
+        updateGradient();
+        
+        if (logoContainer && techText) {
+            logoContainer.addEventListener('mousemove', (e: MouseEvent) => {
+                const rect = logoContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+                const gradientAngle = (angle + 90) % 360;
+                
+                // Calculate distance from center for intensity
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                const maxDistance = Math.sqrt(Math.pow(rect.width/2, 2) + Math.pow(rect.height/2, 2));
+                const intensity = 1 - (distance / maxDistance);
+                
+                // Update gradient with more intense colors based on mouse position
+                const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
+                const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
+                
+                techText.style.setProperty('--gradient-angle', `${gradientAngle}deg`);
+                techText.style.setProperty('--gradient-start', startColor);
+                techText.style.setProperty('--gradient-end', endColor);
+                techText.style.textShadow = `0 0 ${10 + intensity * 20}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
+            });
+
+            logoContainer.addEventListener('mouseleave', () => {
+                techText.style.setProperty('--gradient-angle', '252deg');
+                techText.style.setProperty('--gradient-start', '#6521FF');
+                techText.style.setProperty('--gradient-end', '#B493FF');
+                techText.style.textShadow = 'none';
+            });
+        }
+
+        // Mouse follow effect for button
+        const button = document.querySelector('.cta-button') as HTMLElement | null;
+        if (button) {
+            button.addEventListener('mousemove', (e: MouseEvent) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+                const gradientAngle = (angle + 90) % 360;
+                
+                // Calculate distance from center for intensity
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                const maxDistance = Math.sqrt(Math.pow(rect.width/2, 2) + Math.pow(rect.height/2, 2));
+                const intensity = 1 - (distance / maxDistance);
+                
+                // Update gradient with more intense colors based on mouse position
+                const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
+                const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
+                
+                button.style.background = `linear-gradient(${gradientAngle}deg, ${startColor}, ${endColor})`;
+                button.style.boxShadow = `0 0 ${20 + intensity * 30}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.style.background = 'linear-gradient(252deg, #6521FF, #B493FF)';
+                button.style.boxShadow = '0 0 20px rgba(101, 33, 255, 0.3)';
+            });
+        }
+
+        // Create additional floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            // Random position around the logo
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 15 + Math.random() * 10; // Reduced radius: 15-25px from center
+            const logo = document.querySelector('.logo-container') as HTMLElement | null;
+            if (!logo) return;
+            const logoRect = logo.getBoundingClientRect();
+            const containerW = logo.offsetWidth;
+            const containerH = logo.offsetHeight;
+            // Center of the logo in percent
+            const centerX = 50;
+            const centerY = 50;
+            // Calculate position in percent
+            const left = centerX + Math.cos(angle) * radius * 0.9 / containerW * 100;
+            const top = centerY + Math.sin(angle) * radius * 0.9 / containerH * 100;
+            particle.style.left = `calc(${left}% - 1px)`;
+            particle.style.top = `calc(${top}% - 1px)`;
+
+            // Animate outward from the center with continuous fade out
+            const moveAngle = angle + (Math.random() - 0.5) * Math.PI / 3; // More vertical variation
+            const moveDistance = 200 + Math.random() * 100; // Much increased horizontal movement: 200-300px
+            const wobbleAmount = 30 + Math.random() * 20; // Random wobble amount
+            const wobbleFrequency = 2 + Math.random() * 2; // Random wobble frequency
+
+            particle.animate([
+                { 
+                    transform: 'translate(0, 0) scale(1)', 
+                    opacity: 0 
+                },
+                { 
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.2}px, ${Math.sin(moveAngle) * moveDistance * 0.2}px) scale(1)`, 
+                    opacity: 0.9,
+                    offset: 0.3
+                },
+                { 
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.5}px, ${Math.sin(moveAngle) * moveDistance * 0.3}px) scale(0.8)`, 
+                    opacity: 0.3,
+                    offset: 0.6
+                },
+                { 
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance}px, ${Math.sin(moveAngle) * moveDistance * 0.4}px) scale(0.5)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: 8000,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+
+            const particlesContainer = document.querySelector('.particles');
+            if (particlesContainer) {
+                particlesContainer.appendChild(particle);
+            }
+
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Spawn particles periodically
+        setInterval(() => {
+            for (let i = 0; i < 2; i++) {
+                createParticle();
+            }
+        }, 800);
+
+        // Create interactive dots pattern
+        function createDotsPattern() {
+            const container = document.getElementById('dotsPattern') as HTMLElement | null;
+            if (!container) {
+                console.error('Dots container not found');
+                return;
+            }
+
+            // Clear any existing dots
+            container.innerHTML = '';
+            const dots: HTMLElement[] = [];
+
+            // Calculate grid dimensions
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+            const spacingX = containerWidth / (dotsConfig.gridSize + 1);
+            const spacingY = containerHeight / (dotsConfig.gridSize + 1);
+
+            // Create 20x20 grid of dots
+            for (let row = 0; row < dotsConfig.gridSize; row++) {
+                for (let col = 0; col < dotsConfig.gridSize; col++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    
+                    // Calculate position
+                    const x = spacingX * (col + 1);
+                    const y = spacingY * (row + 1);
+                    
+                    dot.style.left = `${x}px`;
+                    dot.style.top = `${y}px`;
+                    
+                    container.appendChild(dot);
+                    dots.push(dot);
+                }
+            }
+
+            // Optimized mouse move effect
+            let rafId: number | null = null;
+            
+            const updateDots = (x: number, y: number, rect: DOMRect) => {
+                if (rafId) cancelAnimationFrame(rafId);
+                
+                rafId = requestAnimationFrame(() => {
+                    dots.forEach(dot => {
+                        const dotX = parseFloat(dot.style.left);
+                        const dotY = parseFloat(dot.style.top);
+                        
+                        const distance = Math.sqrt(
+                            Math.pow(x - dotX, 2) + 
+                            Math.pow(y - dotY, 2)
+                        );
+                        
+                        if (distance < dotsConfig.interactionRadius) {
+                            const intensity = Math.pow(1 - (distance / dotsConfig.interactionRadius), 2);
+                            dot.style.transform = `scale(${1 + intensity * dotsConfig.maxScale})`;
+                            dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity + intensity * (dotsConfig.maxOpacity - dotsConfig.baseOpacity)})`;
+                        } else {
+                            dot.style.transform = 'scale(1)';
+                            dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
+                        }
+                    });
+                });
+            };
+
+            const handleMouseMove = (e: MouseEvent) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                updateDots(x, y, rect);
+            };
+
+            const handleMouseLeave = () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                dots.forEach(dot => {
+                    dot.style.transform = 'scale(1)';
+                    dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
+                });
+            };
+
+            // Add mouse move listeners to both container and benefit cards
+            container.addEventListener('mousemove', handleMouseMove);
+            container.addEventListener('mouseleave', handleMouseLeave);
+
+            // Add mouse move listeners to benefit cards
+            const benefitCards = document.querySelectorAll('.benefit-card');
+            benefitCards.forEach(card => {
+                card.addEventListener('mousemove', ((e: Event) => {
+                    const mouseEvent = e as MouseEvent;
+                    const rect = container.getBoundingClientRect();
+                    const cardRect = card.getBoundingClientRect();
+                    const x = mouseEvent.clientX - rect.left;
+                    const y = mouseEvent.clientY - rect.top;
+                    updateDots(x, y, rect);
+                }) as EventListener);
+            });
+
+            // Optimized window resize handler
+            let resizeTimeout: ReturnType<typeof setTimeout>;
+            const handleResize = () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    createDotsPattern();
+                }, 250);
+            };
+
+            window.removeEventListener('resize', handleResize);
+            window.addEventListener('resize', handleResize);
+        }
+
+        // Initialize dots pattern
+        createDotsPattern();
+
+        // Rocket and bullet functionality
+        const rocket = document.querySelector('.rocket') as HTMLElement | null;
+        const footerGrid = document.querySelector('.footer-grid') as HTMLElement | null;
+        let bullet = null;
+        let lastMouseX = 0;
+        let targetX = 0;
+        let currentX = 0;
+        let animationFrame: number | null = null;
+        let isFiring = false;
+        let lastFireTime = 0;
+        const fireRate = 100; // Minimum time between shots in milliseconds
+
+        // Prevent space key from scrolling
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (!isFiring) {
+                    isFiring = true;
+                    fireBullet();
+                    
+                    // Set up continuous firing
+                    const fireInterval = setInterval(() => {
+                        if (isFiring) {
+                            fireBullet();
+                        } else {
+                            clearInterval(fireInterval);
+                        }
+                    }, fireRate);
+                }
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') {
+                isFiring = false;
+            }
+        });
+
+        // Handle mouse down for continuous firing from footer-grid and rocket-container
+        [footerGrid].forEach((element) => {
+            if (element) {
+                element.addEventListener('mousedown', () => {
+                    isFiring = true;
+                    fireBullet(); // Fire immediately on click
+                    // Set up continuous firing
+                    const fireInterval = setInterval(() => {
+                        if (isFiring) {
+                            fireBullet();
+                        } else {
+                            clearInterval(fireInterval);
+                        }
+                    }, fireRate);
+                });
+            }
+        });
+
+        // Handle mouse up to stop firing
+        document.addEventListener('mouseup', () => {
+            isFiring = false;
+        });
+
+        // Create bullet element
+        function createBullet() {
+            const bulletElement = document.createElement('div');
+            bulletElement.className = 'bullet';
+            document.body.appendChild(bulletElement);
+            return bulletElement;
+        }
+
+        // Create bullet trail
+        function createBulletTrail() {
+            const trail = document.createElement('div');
+            trail.className = 'bullet-trail';
+            document.body.appendChild(trail);
+            return trail;
+        }
+
+        // Create pixel dust effect
+        function createPixelDust(x: number, y: number) {
+            const dust = document.createElement('div');
+            dust.className = 'pixel-dust';
+            dust.style.left = `${x}px`;
+            dust.style.top = `${y}px`;
+            
+            // Random direction
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 20 + Math.random() * 30;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            dust.style.setProperty('--tx', `${tx}px`);
+            dust.style.setProperty('--ty', `${ty}px`);
+            
+            document.body.appendChild(dust);
+            
+            const animation = dust.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 0.8 },
+                { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 500 + Math.random() * 500,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+            
+            animation.onfinish = () => dust.remove();
+        }
+
+        // Handle mouse move for rocket
+        document.addEventListener('mousemove', (e: MouseEvent) => {
+            const rocket = document.querySelector('.rocket') as HTMLElement | null;
+            const rocketContainer = document.querySelector('.rocket-container') as HTMLElement | null;
+            if (!rocket || !rocketContainer) return;
+            
+            const containerRect = rocketContainer.getBoundingClientRect();
+            const rocketWidth = rocket.offsetWidth;
+            
+            // Calculate target position relative to the container
+            targetX = Math.max(0, Math.min(
+                e.clientX - containerRect.left - (rocketWidth / 2),
+                containerRect.width - rocketWidth
+            ));
+        });
+
+        // Smooth animation function
+        function animateRocket() {
+            const rocket = document.querySelector('.rocket') as HTMLElement | null;
+            if (!rocket) return;
+            
+            const dx = targetX - currentX;
+            currentX += dx * 0.1; // Smoothing factor
+            
+            if (Math.abs(dx) > 0.1) {
+                rocket.style.left = `${currentX}px`;
+            } else {
+                rocket.style.left = `${targetX}px`;
+            }
+            
+            animationFrame = requestAnimationFrame(animateRocket);
+        }
+
+        // Start the animation loop
+        animateRocket();
+
+        // Fire bullet function
+        function fireBullet() {
+            const now = Date.now();
+            if (now - lastFireTime < fireRate) return; // Rate limiting
+            
+            lastFireTime = now;
+            const rocket = document.querySelector('.rocket') as HTMLElement | null;
+            if (!rocket) return;
+            const rocketRect = rocket.getBoundingClientRect();
+            const bullet = createBullet();
+            const trail = createBulletTrail();
+            
+            // Position bullet and trail at rocket's center
+            const bulletX = rocketRect.left + rocketRect.width / 2;
+            const bulletY = rocketRect.top;
+            
+            bullet.style.left = `${bulletX}px`;
+            bullet.style.top = `${bulletY}px`;
+            
+            trail.style.left = `${bulletX}px`;
+            trail.style.top = `${bulletY}px`;
+            
+            // Create initial pixel dust
+            for (let i = 0; i < 3; i++) {
+                createPixelDust(bulletX, bulletY);
+            }
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                bullet.classList.add('active');
+                
+                // Animate bullet upward with pixel dust trail
+                const animation = bullet.animate([
+                    { transform: 'translateY(0)', opacity: 1 },
+                    { transform: 'translateY(-100vh)', opacity: 0 }
+                ], {
+                    duration: 1500,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                });
+                
+                // Create pixel dust during animation
+                const dustInterval = setInterval(() => {
+                    const currentY = parseFloat(bullet.style.top);
+                    createPixelDust(bulletX, currentY);
+                }, 30);
+                
+                // Animate trail
+                const trailAnimation = trail.animate([
+                    { transform: 'scaleY(1)', opacity: 0.8 },
+                    { transform: 'scaleY(0)', opacity: 0 }
+                ], {
+                    duration: 1500,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                });
+                
+                // Remove elements after animation
+                animation.onfinish = () => {
+                    clearInterval(dustInterval);
+                    bullet.remove();
+                    trail.remove();
+                };
+            });
+        }
+
+        // Clean up animation frame on unmount
+        onDestroy(() => {
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+            }
+        });
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    });
+</script>
+
 <div>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -150,6 +681,7 @@
     .nav-links {
         display: flex;
         gap: 2rem;
+        position: relative;
     }
 
     .nav-links a {
@@ -167,6 +699,47 @@
     .nav-links a:hover {
         color: #a880ff;
         text-decoration-thickness: 2px;
+    }
+
+    .language-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .language-dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1001;
+        border-radius: 8px;
+        padding: 0.5rem 0;
+    }
+
+    .language-dropdown-content.show {
+        display: block;
+    }
+
+    .language-dropdown-content a {
+        color: #f8fafd;
+        padding: 0.75rem 1rem;
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .language-dropdown-content a:hover {
+        background: rgba(168, 128, 255, 0.1);
+        color: #a880ff;
+    }
+
+    .language-dropdown-content a.active {
+        color: #a880ff;
+        background: rgba(168, 128, 255, 0.1);
     }
 
     .hero {
@@ -343,17 +916,20 @@
         left: 0;
         width: 100%;
         height: 100%;
-        pointer-events: none;
+        pointer-events: all;
         z-index: 1;
+        overflow: hidden;
     }
 
     .dot {
         position: absolute;
-        width: var(--dot-size, 1px);
-        height: var(--dot-size, 1px);
-        background: rgba(255, 255, 255, var(--dot-opacity, 0.08));
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, var(--dot-opacity, 0.03));
         border-radius: 50%;
-        transition: transform var(--transition-speed, 0.3s) ease, background var(--transition-speed, 0.3s) ease;
+        transition: transform var(--transition-speed, 0.2s) ease, background var(--transition-speed, 0.2s) ease;
+        pointer-events: none;
+        will-change: transform, background;
     }
 
     .benefits .section-content {
@@ -427,14 +1003,22 @@
         backdrop-filter: blur(10px);
         transition: transform 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
     }
 
     .step-card img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        margin-bottom: 1rem;
+        max-height: 200px;
+        display: block;
         z-index: 10;
         position: relative;
     }
 
-    .benefit-card:hover, .step-card:hover {
+    .step-card:hover, .step-card:hover {
         transform: translateY(-5px);
         background: rgba(255, 255, 255, 0.05);
     }
@@ -738,6 +1322,49 @@
             font-size: 1.3rem;
         }
     }
+
+    .language-button {
+        background: none;
+        border: none;
+        color: #f8fafd;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 200;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-color: #a880ff;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+        padding: 0;
+    }
+
+    .language-button:hover {
+        color: #a880ff;
+    }
+
+    .language-option {
+        background: none;
+        border: none;
+        color: #f8fafd;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 200;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .language-option:hover {
+        background: rgba(168, 128, 255, 0.1);
+        color: #a880ff;
+    }
+
+    .language-option.active {
+        color: #a880ff;
+        background: rgba(168, 128, 255, 0.1);
+    }
 </style>
 
 <nav class="navbar">
@@ -754,7 +1381,13 @@
     </div>
     <div class="nav-links">
         <a href="#features">comece GRÁTIS</a>
-        <a href="#pricing">language (pt-BR)</a>
+        <div class="language-dropdown">
+            <button class="language-button" on:click={toggleLanguageDropdown}>language ({currentLanguage})</button>
+            <div class="language-dropdown-content" class:show={showLanguageDropdown}>
+                <button class="language-option" class:active={currentLanguage === 'pt-BR'} on:click={() => selectLanguage('pt-BR')}>Português (BR)</button>
+                <button class="language-option" class:active={currentLanguage === 'en-US'} on:click={() => selectLanguage('en-US')}>English (US)</button>
+            </div>
+        </div>
         <a href="#contact">entrar</a>
     </div>
 </nav>
@@ -883,463 +1516,4 @@
         </div>
     </div>
 </footer>
-
-<script>
-    // Dots pattern configuration
-    const dotsConfig = {
-        count: 600,
-        size: 1,
-        baseOpacity: 0.08,
-        maxOpacity: 0.5,
-        interactionRadius: 200,
-        maxScale: 3,
-        clustering: 0.8,
-        transitionSpeed: 0.3,
-        gridSpacing: 20,  // Space between dots in pixels
-        gridOffset: 10    // Offset to create a more natural look
-    };
-
-    // Mouse follow effect for logo tech text
-    const logoContainer = document.querySelector('.logo-container');
-    const techText = document.querySelector('.tech');
-    
-    // Set initial gradient animation
-    function updateGradient() {
-        const angle = (Date.now() / 50) % 360;
-        const startColor = `hsl(${angle}, 100%, 50%)`;
-        const endColor = `hsl(${(angle + 60) % 360}, 100%, 70%)`;
-        
-        techText.style.setProperty('--gradient-angle', `${angle}deg`);
-        techText.style.setProperty('--gradient-start', startColor);
-        techText.style.setProperty('--gradient-end', endColor);
-        techText.style.textShadow = `0 0 15px rgba(101, 33, 255, 0.5)`;
-        
-        requestAnimationFrame(updateGradient);
-    }
-    
-    // Start the gradient animation
-    updateGradient();
-    
-    logoContainer.addEventListener('mousemove', (e) => {
-        const rect = logoContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
-        const gradientAngle = (angle + 90) % 360;
-        
-        // Calculate distance from center for intensity
-        const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-        const maxDistance = Math.sqrt(Math.pow(rect.width/2, 2) + Math.pow(rect.height/2, 2));
-        const intensity = 1 - (distance / maxDistance);
-        
-        // Update gradient with more intense colors based on mouse position
-        const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
-        const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
-        
-        techText.style.setProperty('--gradient-angle', `${gradientAngle}deg`);
-        techText.style.setProperty('--gradient-start', startColor);
-        techText.style.setProperty('--gradient-end', endColor);
-        techText.style.textShadow = `0 0 ${10 + intensity * 20}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
-    });
-
-    logoContainer.addEventListener('mouseleave', () => {
-        techText.style.setProperty('--gradient-angle', '252deg');
-        techText.style.setProperty('--gradient-start', '#6521FF');
-        techText.style.setProperty('--gradient-end', '#B493FF');
-        techText.style.textShadow = 'none';
-    });
-
-    // Mouse follow effect for button
-    const button = document.querySelector('.cta-button');
-    button.addEventListener('mousemove', (e) => {
-        const rect = button.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
-        const gradientAngle = (angle + 90) % 360;
-        
-        // Calculate distance from center for intensity
-        const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-        const maxDistance = Math.sqrt(Math.pow(rect.width/2, 2) + Math.pow(rect.height/2, 2));
-        const intensity = 1 - (distance / maxDistance);
-        
-        // Update gradient with more intense colors based on mouse position
-        const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
-        const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
-        
-        button.style.background = `linear-gradient(${gradientAngle}deg, ${startColor}, ${endColor})`;
-        button.style.boxShadow = `0 0 ${20 + intensity * 30}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
-    });
-
-    button.addEventListener('mouseleave', () => {
-        button.style.background = 'linear-gradient(252deg, #6521FF, #B493FF)';
-        button.style.boxShadow = '0 0 20px rgba(101, 33, 255, 0.3)';
-    });
-
-    // Create additional floating particles
-    function createParticle() {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-
-        // Random position around the logo
-        const angle = Math.random() * 2 * Math.PI;
-        const radius = 15 + Math.random() * 10; // Reduced radius: 15-25px from center
-        const logo = document.querySelector('.logo-container');
-        const logoRect = logo.getBoundingClientRect();
-        const containerW = logo.offsetWidth;
-        const containerH = logo.offsetHeight;
-        // Center of the logo in percent
-        const centerX = 50;
-        const centerY = 50;
-        // Calculate position in percent
-        const left = centerX + Math.cos(angle) * radius * 0.9 / containerW * 100;
-        const top = centerY + Math.sin(angle) * radius * 0.9 / containerH * 100;
-        particle.style.left = `calc(${left}% - 1px)`;
-        particle.style.top = `calc(${top}% - 1px)`;
-
-        // Animate outward from the center with continuous fade out
-        const moveAngle = angle + (Math.random() - 0.5) * Math.PI / 3; // More vertical variation
-        const moveDistance = 200 + Math.random() * 100; // Much increased horizontal movement: 200-300px
-        const wobbleAmount = 30 + Math.random() * 20; // Random wobble amount
-        const wobbleFrequency = 2 + Math.random() * 2; // Random wobble frequency
-
-        particle.animate([
-            { 
-                transform: 'translate(0, 0) scale(1)', 
-                opacity: 0 
-            },
-            { 
-                transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.2}px, ${Math.sin(moveAngle) * moveDistance * 0.2}px) scale(1)`, 
-                opacity: 0.9,
-                offset: 0.3
-            },
-            { 
-                transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.5}px, ${Math.sin(moveAngle) * moveDistance * 0.3}px) scale(0.8)`, 
-                opacity: 0.3,
-                offset: 0.6
-            },
-            { 
-                transform: `translate(${Math.cos(moveAngle) * moveDistance}px, ${Math.sin(moveAngle) * moveDistance * 0.4}px) scale(0.5)`, 
-                opacity: 0 
-            }
-        ], {
-            duration: 8000,
-            easing: 'ease-out',
-            fill: 'forwards'
-        });
-
-        document.querySelector('.particles').appendChild(particle);
-
-        setTimeout(() => {
-            particle.remove();
-        }, 8000);
-    }
-
-    // Spawn particles periodically
-    setInterval(() => {
-        for (let i = 0; i < 2; i++) {
-            createParticle();
-        }
-    }, 800);
-
-    // Create interactive dots pattern
-    function createDotsPattern() {
-        const container = document.getElementById('dotsPattern');
-        const dots = [];
-
-        // Calculate grid dimensions
-        const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight;
-        const cols = Math.ceil(containerWidth / dotsConfig.gridSpacing);
-        const rows = Math.ceil(containerHeight / dotsConfig.gridSpacing);
-
-        // Create grid of dots
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                
-                // Calculate position with slight offset for natural look
-                const offsetX = (Math.random() - 0.5) * dotsConfig.gridOffset;
-                const offsetY = (Math.random() - 0.5) * dotsConfig.gridOffset;
-                
-                const x = (col * dotsConfig.gridSpacing) + offsetX;
-                const y = (row * dotsConfig.gridSpacing) + offsetY;
-                
-                dot.style.left = `${x}px`;
-                dot.style.top = `${y}px`;
-                
-                container.appendChild(dot);
-                dots.push(dot);
-            }
-        }
-
-        // Mouse move effect
-        document.querySelector('.benefits').addEventListener('mousemove', (e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            dots.forEach(dot => {
-                const dotX = parseFloat(dot.style.left);
-                const dotY = parseFloat(dot.style.top);
-                
-                const distance = Math.sqrt(
-                    Math.pow(x - dotX, 2) + 
-                    Math.pow(y - dotY, 2)
-                );
-                
-                if (distance < dotsConfig.interactionRadius) {
-                    const intensity = 1 - (distance / dotsConfig.interactionRadius);
-                    dot.style.transform = `scale(${1 + intensity * dotsConfig.maxScale})`;
-                    dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity + intensity * (dotsConfig.maxOpacity - dotsConfig.baseOpacity)})`;
-                } else {
-                    dot.style.transform = 'scale(1)';
-                    dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
-                }
-            });
-        });
-
-        // Reset dots on mouse leave
-        document.querySelector('.benefits').addEventListener('mouseleave', () => {
-            dots.forEach(dot => {
-                dot.style.transform = 'scale(1)';
-                dot.style.background = `rgba(255, 255, 255, ${dotsConfig.baseOpacity})`;
-            });
-        });
-
-        // Handle window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // Remove all existing dots
-                dots.forEach(dot => dot.remove());
-                // Recreate the pattern
-                createDotsPattern();
-            }, 250);
-        });
-    }
-
-    // Initialize dots pattern
-    createDotsPattern();
-
-    // Rocket and bullet functionality
-    const rocket = document.querySelector('.rocket');
-    const rocketContainer = document.querySelector('.rocket-container');
-    const footerGrid = document.querySelector('.footer-grid');
-    let bullet = null;
-    let lastMouseX = 0;
-    let targetX = 0;
-    let currentX = 0;
-    let animationFrame = null;
-    let isFiring = false;
-    let lastFireTime = 0;
-    const fireRate = 100; // Minimum time between shots in milliseconds
-
-    // Prevent space key from scrolling
-    document.addEventListener('keydown', (e) => {
-        if (e.code === 'Space') {
-            e.preventDefault();
-            if (!isFiring) {
-                isFiring = true;
-                fireBullet();
-                
-                // Set up continuous firing
-                const fireInterval = setInterval(() => {
-                    if (isFiring) {
-                        fireBullet();
-                    } else {
-                        clearInterval(fireInterval);
-                    }
-                }, fireRate);
-            }
-        }
-    });
-
-    document.addEventListener('keyup', (e) => {
-        if (e.code === 'Space') {
-            isFiring = false;
-        }
-    });
-
-    // Handle mouse down for continuous firing from footer-grid and rocket-container
-    [footerGrid, rocketContainer].forEach(element => {
-        element.addEventListener('mousedown', () => {
-            isFiring = true;
-            fireBullet(); // Fire immediately on click
-            
-            // Set up continuous firing
-            const fireInterval = setInterval(() => {
-                if (isFiring) {
-                    fireBullet();
-                } else {
-                    clearInterval(fireInterval);
-                }
-            }, fireRate);
-        });
-    });
-
-    // Handle mouse up to stop firing
-    document.addEventListener('mouseup', () => {
-        isFiring = false;
-    });
-
-    // Create bullet element
-    function createBullet() {
-        const bulletElement = document.createElement('div');
-        bulletElement.className = 'bullet';
-        document.body.appendChild(bulletElement);
-        return bulletElement;
-    }
-
-    // Create bullet trail
-    function createBulletTrail() {
-        const trail = document.createElement('div');
-        trail.className = 'bullet-trail';
-        document.body.appendChild(trail);
-        return trail;
-    }
-
-    // Create pixel dust effect
-    function createPixelDust(x, y) {
-        const dust = document.createElement('div');
-        dust.className = 'pixel-dust';
-        dust.style.left = `${x}px`;
-        dust.style.top = `${y}px`;
-        
-        // Random direction
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 20 + Math.random() * 30;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        
-        dust.style.setProperty('--tx', `${tx}px`);
-        dust.style.setProperty('--ty', `${ty}px`);
-        
-        document.body.appendChild(dust);
-        
-        const animation = dust.animate([
-            { transform: 'translate(0, 0) scale(1)', opacity: 0.8 },
-            { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-        ], {
-            duration: 500 + Math.random() * 500,
-            easing: 'ease-out',
-            fill: 'forwards'
-        });
-        
-        animation.onfinish = () => dust.remove();
-    }
-
-    // Smooth animation function
-    function animateRocket() {
-        const dx = targetX - currentX;
-        currentX += dx * 0.1; // Smoothing factor
-        
-        if (Math.abs(dx) > 0.1) {
-            rocket.style.left = `${currentX}px`;
-        } else {
-            rocket.style.left = `${targetX}px`;
-        }
-        
-        // Always request next frame to keep movement smooth
-        animationFrame = requestAnimationFrame(animateRocket);
-    }
-
-    // Start the animation loop
-    animateRocket();
-
-    // Handle mouse move for rocket
-    document.addEventListener('mousemove', (e) => {
-        const containerRect = rocketContainer.getBoundingClientRect();
-        const rocketWidth = rocket.offsetWidth;
-        
-        // Calculate target position
-        targetX = Math.max(0, Math.min(
-            e.clientX - containerRect.left - (rocketWidth / 2),
-            containerRect.width - rocketWidth
-        ));
-        
-        lastMouseX = e.clientX;
-    });
-
-    // Fire bullet function
-    function fireBullet() {
-        const now = Date.now();
-        if (now - lastFireTime < fireRate) return; // Rate limiting
-        
-        lastFireTime = now;
-        const rocketRect = rocket.getBoundingClientRect();
-        const bullet = createBullet();
-        const trail = createBulletTrail();
-        
-        // Position bullet and trail at rocket's center
-        const bulletX = rocketRect.left + rocketRect.width / 2;
-        const bulletY = rocketRect.top;
-        
-        bullet.style.left = `${bulletX}px`;
-        bullet.style.top = `${bulletY}px`;
-        
-        trail.style.left = `${bulletX}px`;
-        trail.style.top = `${bulletY}px`;
-        
-        // Create initial pixel dust
-        for (let i = 0; i < 3; i++) {
-            createPixelDust(bulletX, bulletY);
-        }
-        
-        // Trigger animation
-        requestAnimationFrame(() => {
-            bullet.classList.add('active');
-            
-            // Animate bullet upward with pixel dust trail
-            const animation = bullet.animate([
-                { transform: 'translateY(0)', opacity: 1 },
-                { transform: 'translateY(-100vh)', opacity: 0 }
-            ], {
-                duration: 1500,
-                easing: 'ease-out',
-                fill: 'forwards'
-            });
-            
-            // Create pixel dust during animation
-            const dustInterval = setInterval(() => {
-                const currentY = parseFloat(bullet.style.top);
-                createPixelDust(bulletX, currentY);
-            }, 30);
-            
-            // Animate trail
-            const trailAnimation = trail.animate([
-                { transform: 'scaleY(1)', opacity: 0.8 },
-                { transform: 'scaleY(0)', opacity: 0 }
-            ], {
-                duration: 1500,
-                easing: 'ease-out',
-                fill: 'forwards'
-            });
-            
-            // Remove elements after animation
-            animation.onfinish = () => {
-                clearInterval(dustInterval);
-                bullet.remove();
-                trail.remove();
-            };
-        });
-    }
-
-    // Clean up animation frame on unmount
-    onDestroy(() => {
-        if (animationFrame) {
-            cancelAnimationFrame(animationFrame);
-        }
-    });
-</script>
 </div>
