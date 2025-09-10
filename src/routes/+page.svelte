@@ -562,7 +562,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 2rem 3rem;
+        padding: 1rem 3rem;
         /* background: rgba(10, 10, 10, 0.8); */
         backdrop-filter: blur(10px);
         z-index: 1000;
@@ -680,11 +680,12 @@
 
     .nav-links {
         display: flex;
-        gap: 2rem;
+        gap: 0.6rem;
         position: relative;
     }
 
     .nav-links a {
+        padding: 1rem;
         text-decoration: none;
         font-weight: 200;
         font-family: 'Nunito', sans-serif;
@@ -803,7 +804,8 @@
 
     .hero h1 {
         font-size: 3.5rem;
-        margin-bottom: 1rem;
+        line-height: 3.5rem;
+        margin-bottom: 4rem;
         font-weight: 200;
         font-family: 'Nunito', sans-serif;
     }
@@ -814,7 +816,7 @@
 
     .hero h2 {
         font-size: 2.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
         font-family: 'Nunito', sans-serif;
         background: linear-gradient(55deg,#dcccff,#b694ff 74%,#a880ff);
         -webkit-background-clip: text;
@@ -825,7 +827,7 @@
 
     .hero p {
         font-size: 1.2rem;
-        margin-bottom: 2rem;
+        margin: 0 0 2rem 0;
         font-family: 'Nunito', sans-serif;
     }
 
@@ -1113,7 +1115,7 @@
 
     .footer-grid {
         /* margin-bottom: 4rem; */
-        padding: 16rem 4rem 0rem;
+        padding: 8rem 4rem 0rem;
     }
 
     .footer-brand {
@@ -1335,7 +1337,7 @@
         text-decoration-color: #a880ff;
         text-decoration-thickness: 2px;
         text-underline-offset: 6px;
-        padding: 0;
+        padding: 1rem;
     }
 
     .language-button:hover {
@@ -1380,7 +1382,6 @@
         <h1 class="tech">tech</h1>
     </div>
     <div class="nav-links">
-        <a href="#features">comece GRÁTIS</a>
         <div class="language-dropdown">
             <button class="language-button" on:click={toggleLanguageDropdown}>language ({currentLanguage})</button>
             <div class="language-dropdown-content" class:show={showLanguageDropdown}>
@@ -1398,10 +1399,10 @@
     </video>
     <div class="video-gradient"></div>
     <div class="hero-content">
-        <h1><strong>Atendimento</strong> por <strong>AI</strong><br>com <strong>personalização</strong></h1>
-        <h2>GRÁTIS por 1 mês.</h2>
-        <p>depois R$ 99/mês, cancele quando quiser, sem multa.</p>
-        <button class="cta-button"><span>Comece Já!</span></button>
+        <h1>O melhor <strong>atendimento</strong> por <strong>AI</strong><br>para o seu <strong>negócio</strong></h1>
+        <h2>GRÁTIS por um mês!</h2>
+        <p>depois R$ 99 por mês, cancele quando quiser, sem multa.</p>
+        <button class="cta-button"><span>Eu quero!</span></button>
     </div>
 </div>
 
@@ -1416,19 +1417,18 @@
                 <h3>Para seu cliente</h3>
                 <ul>
                     <li>Atendimento 24/7</li>
-                    <li>Automatizado mas humanizado</li>
-                    <li>Respostas quase que instantâneas para simular atendimento humado</li>
+                    <li>Respostas fluídas como o melhor do atendimento humado</li>
                     <li>Fluxo personalizado para casos especiais</li>
                 </ul>
             </div>
             <div class="benefit-card">
                 <h3>Para você</h3>
                 <ul>
-                    <li>Qualidade no atendimento</li>
+                    <li>Sem gestão de pessoas, sem demissões</li>
+                    <li>Sem falhas, com a mesma qualidade no atendimento</li>
                     <li>Gestão centralizada</li>
-                    <li>Sem gestão de pessoas</li>
                     <li>Relatórios detalhados</li>
-                    <li>Custo baixo</li>
+                    <li>Custo extremamente baixo</li>
                 </ul>
             </div>
         </div>
@@ -1491,12 +1491,8 @@
     <div class="footer-content">
         <div class="footer-grid">
             <div class="footer-brand">
-                <div class="footer-logo">
-                    <span class="indaia">indaia</span>
-                    <span class="tech">tech</span>
-                </div>
-                <p class="footer-tagline">Transformando atendimento com inteligência artificial</p>
-                <p class="footer-description">Somos uma empresa focada em transformar o atendimento ao cliente através de soluções inovadoras de inteligência artificial, tornando o processo mais eficiente e personalizado.</p>
+                <p class="footer-tagline">Transformando o atendimento ao cliente!</p>
+                <p class="footer-description">Empresa fundada e com operação em Indaiatuba, São Paulo.<br />Time de tecnologia de alta performance, todos sócios do negócio,<br />então conte com o maior comprometimento em todos os sentidos!</p>
             </div>
         </div>
         
