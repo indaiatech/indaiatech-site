@@ -13,6 +13,11 @@ running:
 bun dev
 ```
 
+## Structure
+
+- `/` — site institucional
+- `/ai-assistant` — site do produto AI Assistant (chat)
+
 ## Other resources
 
 to get images:
