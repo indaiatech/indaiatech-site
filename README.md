@@ -21,7 +21,7 @@ bun dev
 ## Deploy
 
 GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`), adapter estático,
-domínio próprio `indaiatech.com` (CNAME). DNS na UOL:
+domínio próprio `indaia.tech` (CNAME). DNS do registrante:
 
 - `A @` → `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`
 - `CNAME www` → `indaiatech.github.io.`
