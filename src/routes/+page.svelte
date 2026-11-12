@@ -271,7 +271,37 @@
             text-align: left;
             color: #f8fafd;
             z-index: 1;
-            background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(101, 33, 255, 0.15), transparent), #000;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0) 100%);
+            z-index: 2;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .video-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, transparent, #1a1a1a);
+            z-index: 3;
         }
 
         .hero-content {
@@ -320,6 +350,10 @@
     </nav>
 
     <div class="hero">
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="/videos/app-demo.mp4" type="video/mp4">
+        </video>
+        <div class="video-gradient"></div>
         <div class="hero-content">
             <h1>The future of your business is <strong>intelligent</strong></h1>
             <p>Indaia Tech builds AI solutions, an AI platform and AI products for companies.</p>
