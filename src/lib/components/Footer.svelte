@@ -1,6 +1,8 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte';
 
+    let { lang = 'pt' }: { lang?: 'pt' | 'en' } = $props();
+
     onMount(() => {
         // Rocket and bullet functionality
         const rocket = document.querySelector('.rocket') as HTMLElement | null;
@@ -223,10 +225,12 @@
 <footer class="footer">
     <div class="footer-content">
         <div class="footer-grid">
+            {#if lang === 'pt'}
             <div class="footer-brand">
                 <p class="footer-tagline">Transformando o atendimento ao cliente!</p>
                 <p class="footer-description">Empresa fundada e com operação em Indaiatuba, São Paulo.<br />Time de tecnologia de alta performance, todos sócios do negócio,<br />então conte com o maior comprometimento em todos os sentidos!</p>
             </div>
+            {/if}
         </div>
         
         <div class="rocket-container">
@@ -237,11 +241,13 @@
         </div>
         
         <div class="footer-bottom">
+            {#if lang === 'pt'}
             <div class="footer-links">
                 <a href="#privacy">Privacidade</a>
                 <a href="#terms">Termos de uso</a>
             </div>
-            <p>&copy; {new Date().getFullYear()} indaiatech. Todos os direitos reservados.</p>
+            {/if}
+            <p>&copy; {new Date().getFullYear()} indaiatech. {lang === 'pt' ? 'Todos os direitos reservados.' : 'All rights reserved.'}</p>
         </div>
     </div>
 </footer>

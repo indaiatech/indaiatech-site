@@ -1,5 +1,134 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Footer from '$lib/components/Footer.svelte';
+
+    onMount(() => {
+        // Mouse follow effect for logo tech text
+        const logoContainer = document.querySelector('.logo-container') as HTMLElement | null;
+        const techText = document.querySelector('.tech') as HTMLElement | null;
+
+        // Set initial gradient animation
+        function updateGradient() {
+            if (!techText) return;
+            const angle = (Date.now() / 50) % 360;
+            const startColor = `hsl(${angle}, 100%, 50%)`;
+            const endColor = `hsl(${(angle + 60) % 360}, 100%, 70%)`;
+
+            techText.style.setProperty('--gradient-angle', `${angle}deg`);
+            techText.style.setProperty('--gradient-start', startColor);
+            techText.style.setProperty('--gradient-end', endColor);
+            techText.style.textShadow = `0 0 15px rgba(101, 33, 255, 0.5)`;
+
+            requestAnimationFrame(updateGradient);
+        }
+
+        updateGradient();
+
+        if (logoContainer && techText) {
+            logoContainer.addEventListener('mousemove', (e: MouseEvent) => {
+                const rect = logoContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+                const gradientAngle = (angle + 90) % 360;
+
+                // Calculate distance from center for intensity
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                const maxDistance = Math.sqrt(Math.pow(rect.width/2, 2) + Math.pow(rect.height/2, 2));
+                const intensity = 1 - (distance / maxDistance);
+
+                // Update gradient with more intense colors based on mouse position
+                const startColor = `hsl(${gradientAngle}, 100%, 50%)`;
+                const endColor = `hsl(${(gradientAngle + 60) % 360}, 100%, 70%)`;
+
+                techText.style.setProperty('--gradient-angle', `${gradientAngle}deg`);
+                techText.style.setProperty('--gradient-start', startColor);
+                techText.style.setProperty('--gradient-end', endColor);
+                techText.style.textShadow = `0 0 ${10 + intensity * 20}px rgba(101, 33, 255, ${0.3 + intensity * 0.4})`;
+            });
+
+            logoContainer.addEventListener('mouseleave', () => {
+                techText.style.setProperty('--gradient-angle', '252deg');
+                techText.style.setProperty('--gradient-start', '#6521FF');
+                techText.style.setProperty('--gradient-end', '#B493FF');
+                techText.style.textShadow = 'none';
+            });
+        }
+
+        // Create additional floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            // Random position around the logo
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 15 + Math.random() * 10; // Reduced radius: 15-25px from center
+            const logo = document.querySelector('.logo-container') as HTMLElement | null;
+            if (!logo) return;
+            const logoRect = logo.getBoundingClientRect();
+            const containerW = logo.offsetWidth;
+            const containerH = logo.offsetHeight;
+            // Center of the logo in percent
+            const centerX = 50;
+            const centerY = 50;
+            // Calculate position in percent
+            const left = centerX + Math.cos(angle) * radius * 0.9 / containerW * 100;
+            const top = centerY + Math.sin(angle) * radius * 0.9 / containerH * 100;
+            particle.style.left = `calc(${left}% - 1px)`;
+            particle.style.top = `calc(${top}% - 1px)`;
+
+            // Animate outward from the center with continuous fade out
+            const moveAngle = angle + (Math.random() - 0.5) * Math.PI / 3; // More vertical variation
+            const moveDistance = 200 + Math.random() * 100; // Much increased horizontal movement: 200-300px
+            const wobbleAmount = 30 + Math.random() * 20; // Random wobble amount
+            const wobbleFrequency = 2 + Math.random() * 2; // Random wobble frequency
+
+            particle.animate([
+                {
+                    transform: 'translate(0, 0) scale(1)',
+                    opacity: 0
+                },
+                {
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.2}px, ${Math.sin(moveAngle) * moveDistance * 0.2}px) scale(1)`,
+                    opacity: 0.9,
+                    offset: 0.3
+                },
+                {
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance * 0.5}px, ${Math.sin(moveAngle) * moveDistance * 0.3}px) scale(0.8)`,
+                    opacity: 0.3,
+                    offset: 0.6
+                },
+                {
+                    transform: `translate(${Math.cos(moveAngle) * moveDistance}px, ${Math.sin(moveAngle) * moveDistance * 0.4}px) scale(0.5)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 8000,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+
+            const particlesContainer = document.querySelector('.particles');
+            if (particlesContainer) {
+                particlesContainer.appendChild(particle);
+            }
+
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Spawn particles periodically
+        setInterval(() => {
+            for (let i = 0; i < 2; i++) {
+                createParticle();
+            }
+        }, 800);
+    });
 </script>
 
 <div>
@@ -114,6 +243,24 @@
             }
         }
 
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
         .hero {
             position: relative;
             height: 100vh;
@@ -160,6 +307,13 @@
 
     <nav class="navbar">
         <div class="logo-container">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
             <h1 class="indaia">indaia</h1>
             <h1 class="tech">tech</h1>
         </div>
@@ -172,5 +326,5 @@
         </div>
     </div>
 
-    <Footer />
+    <Footer lang="en" />
 </div>
