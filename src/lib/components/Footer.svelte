@@ -359,7 +359,7 @@
                 brightness(1.4);
     }
 
-    .bullet {
+    :global(.bullet) {
         position: fixed;
         width: 2px;
         height: 15px;
@@ -374,7 +374,7 @@
         image-rendering: pixelated;
     }
 
-    .bullet::before {
+    :global(.bullet::before) {
         content: '';
         position: absolute;
         top: -5px;
@@ -386,11 +386,11 @@
         filter: blur(1px);
     }
 
-    .bullet.active {
+    :global(.bullet.active) {
         opacity: 1;
     }
 
-    .bullet-trail {
+    :global(.bullet-trail) {
         position: absolute;
         width: 1px;
         height: 20px;
@@ -406,7 +406,7 @@
         box-shadow: 0 0 10px rgba(101, 33, 255, 0.5);
     }
 
-    .pixel-dust {
+    :global(.pixel-dust) {
         position: absolute;
         width: 2px;
         height: 2px;
@@ -415,17 +415,6 @@
         pointer-events: none;
         opacity: 0;
         filter: blur(0.5px);
-    }
-
-    @keyframes pixelDust {
-        0% {
-            transform: translate(0, 0) scale(1);
-            opacity: 0.8;
-        }
-        100% {
-            transform: translate(var(--tx), var(--ty)) scale(0);
-            opacity: 0;
-        }
     }
 
     .footer-bottom {
